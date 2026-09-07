@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>צלילים פותחים לנבו</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@400;500;700;900&family=Assistant:wght@400;600;700&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --desk:#EDEAE3;
+  --ink:#1B2430;
+  --ink-soft:#5E6B7A;
+  --ink-faint:#93A0AE;
+  --rule:#D6DBE1;
+  --rule-soft:#E8EBEF;
+  --accent:#2F6F5E;
+  --accent-wash:#E9F1EE;
+  --key:#8A6A1F;
+  --key-wash:#F6F0DF;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#FFFFFF; --desk:#15181C;
+    --ink:#1B2430; --ink-soft:#5E6B7A; --ink-faint:#93A0AE;
+    --rule:#D6DBE1; --rule-soft:#E8EBEF;
+    --accent:#2F6F5E; --accent-wash:#E9F1EE;
+    --key:#8A6A1F; --key-wash:#F6F0DF;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#FFFFFF; --desk:#15181C;
+  --ink:#1B2430; --ink-soft:#5E6B7A; --ink-faint:#93A0AE;
+  --rule:#D6DBE1; --rule-soft:#E8EBEF;
+  --accent:#2F6F5E; --accent-wash:#E9F1EE;
+  --key:#8A6A1F; --key-wash:#F6F0DF;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--desk);
+  color:var(--ink);
+  font-family:"Assistant","Arial Hebrew",Arial,sans-serif;
+  direction:rtl;
+  margin:0;
+  padding:22px 14px 60px;
+}
+
+/* screen-only strip */
+.bar{
+  max-width:210mm;margin:0 auto 20px;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;
+  color:var(--ink-soft);
+}
+.bar h1{
+  margin:0;font-family:"Suez One","Arial Hebrew",serif;font-weight:400;
+  font-size:24px;color:var(--ink);letter-spacing:.01em;
+}
+:root[data-theme="dark"] .bar h1,
+:root[data-theme="dark"] .bar{color:#E7EAEE}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .bar h1,
+  :root:not([data-theme="light"]) .bar{color:#E7EAEE}
+}
+.bar p{margin:0;font-size:14.5px;line-height:1.5}
+.bar .btn{
+  font:600 14px/1 "Assistant",Arial,sans-serif;color:var(--paper);
+  background:var(--accent);border:0;border-radius:999px;padding:9px 18px;cursor:pointer;
+  margin-inline-start:auto;
+}
+.bar .actions{margin-inline-start:auto;display:flex;gap:8px;align-items:center}
+.bar .btn{margin-inline-start:0}
+.bar .ghost{
+  background:transparent;color:var(--accent);border:1.5px solid var(--accent);
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.bar .btn:focus-visible{outline:2.5px solid #7FB3A3;outline-offset:2px}
+
+.sheet{
+  width:210mm;min-height:297mm;margin:0 auto 20px;
+  background:var(--paper);padding:15mm 13mm 12mm;
+  box-shadow:0 1px 2px rgba(27,36,48,.10),0 10px 30px rgba(27,36,48,.13);
+  display:flex;flex-direction:column;
+}
+
+/* masthead — first sheet only */
+.masthead{border-bottom:2.5px solid var(--ink);padding-bottom:5mm;margin-bottom:7mm}
+.eyebrow{
+  font-size:11.5px;font-weight:700;letter-spacing:.16em;color:var(--accent);
+  text-transform:uppercase;margin:0 0 2mm;
+}
+.masthead h2{
+  margin:0;font-family:"Suez One","Arial Hebrew",serif;font-weight:400;
+  font-size:34px;line-height:1.15;text-wrap:balance;
+}
+.howto{
+  margin:4mm 0 0;font-size:14.5px;line-height:1.55;color:var(--ink-soft);max-width:62ch;
+}
+.howto b{color:var(--ink);font-weight:700}
+.meta{display:flex;gap:12mm;margin-top:5mm;font-size:14px;color:var(--ink-soft)}
+.meta span{display:flex;align-items:baseline;gap:2mm}
+.meta i{font-style:normal;font-weight:700;color:var(--ink)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1.4px solid var(--rule)}
+
+/* running header — later sheets */
+.runhead{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1.4px solid var(--rule);padding-bottom:3mm;margin-bottom:7mm;
+  font-size:12.5px;color:var(--ink-faint);letter-spacing:.06em;
+}
+.runhead b{color:var(--ink-soft);font-weight:700;letter-spacing:.14em}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:7mm;flex:1}
+
+.item{
+  border:1.4px solid var(--rule);border-radius:3mm;
+  padding:5mm 5mm 6mm;
+  display:flex;flex-direction:column;align-items:center;gap:3.5mm;
+}
+.itemtop{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+}
+.num{
+  font:700 13px/1 "Assistant",Arial,sans-serif;color:var(--ink-soft);
+  border:1.4px solid var(--rule);border-radius:50%;
+  width:7.5mm;height:7.5mm;display:flex;align-items:center;justify-content:center;
+  font-variant-numeric:tabular-nums;flex:none;
+}
+.onset{
+  font-family:"Heebo","Arial Hebrew",Arial,sans-serif;font-weight:700;font-size:15px;
+  color:var(--accent);background:var(--accent-wash);
+  border-radius:1.5mm;padding:1mm 3mm;letter-spacing:.02em;
+}
+.pic{font-size:62px;line-height:1.05;height:22mm;display:flex;align-items:center}
+.words{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm;width:100%}
+.word{
+  display:flex;align-items:center;gap:2.5mm;
+  border:1.4px solid var(--rule-soft);border-radius:2mm;
+  padding:2.4mm 3mm;
+  font-family:"Heebo","Arial Hebrew",Arial,sans-serif;
+  font-size:23px;font-weight:500;line-height:1.25;
+}
+.bubble{
+  width:4.6mm;height:4.6mm;border:1.5px solid var(--ink-faint);border-radius:50%;flex:none;
+}
+
+/* answer key */
+.keyhead{border-bottom:2.5px solid var(--key);padding-bottom:4mm;margin-bottom:6mm}
+.keyhead .eyebrow{color:var(--key)}
+.keyhead h2{margin:0;font-family:"Suez One","Arial Hebrew",serif;font-weight:400;font-size:28px}
+.keygrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.keyrow{
+  display:flex;align-items:center;gap:3.5mm;
+  padding:2.6mm 0;border-bottom:1px solid var(--rule-soft);
+}
+.keyrow .n{
+  font:700 12px/1 "Assistant",Arial,sans-serif;color:var(--ink-faint);
+  width:6mm;text-align:center;font-variant-numeric:tabular-nums;flex:none;
+}
+.keyrow .e{font-size:22px;line-height:1;width:9mm;text-align:center;flex:none}
+.keyrow .wd{
+  font-family:"Heebo","Arial Hebrew",Arial,sans-serif;font-weight:700;font-size:19px;
+  color:var(--key);background:var(--key-wash);border-radius:1.5mm;padding:.6mm 2.5mm;
+}
+.keynote{margin:6mm 0 0;font-size:13.5px;line-height:1.6;color:var(--ink-soft);max-width:60ch}
+
+.foot{
+  margin-top:auto;padding-top:5mm;border-top:1px solid var(--rule-soft);
+  display:flex;justify-content:space-between;
+  font-size:11.5px;color:var(--ink-faint);letter-spacing:.04em;
+}
+.foot span{font-variant-numeric:tabular-nums}
+
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff;margin:0;padding:0}
+  .bar{display:none}
+  .sheet{margin:0;box-shadow:none;min-height:0;height:296mm;page-break-after:always;break-after:page}
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+}
+@media screen and (max-width:820px){
+  .sheet{width:100%;min-height:0;padding:20px 16px 24px}
+  .grid{grid-template-columns:1fr}
+  .keygrid{grid-template-columns:1fr}
+  .pic{height:auto;font-size:54px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>צלילים פותחים לנבו</h1>
+  <p>24 תרגילים · 6 עמודים + דף תשובות · A4</p>
+  <span class="actions"><a class="btn ghost" href="index.html">← למשחק</a><button class="btn" onclick="window.print()">הדפסה</button></span>
+</div>
+<div class="sheet">
+  <header class="masthead">
+    <p class="eyebrow">קריאה · צליל פותח</p>
+    <h2>איזו מילה מתאימה לתמונה?</h2>
+    <p class="howto">בכל תרגיל <b>כל ארבע המילים מתחילות באותו צליל</b> — האות הפותחת (או שתי האותיות הראשונות) זהה בכולן, והצליל המשותף מופיע בריבוע הירוק. לכן צריך לקרוא את המילה <b>עד הסוף</b>: ההבדל בין המילים הוא באות האחרונה. קראו את ארבע המילים בקול, הסתכלו על התמונה, וצבעו את העיגול שליד המילה הנכונה.</p>
+    <div class="meta">
+      <span><i>שם:</i> נבו</span>
+      <span><i>תאריך:</i> <span class="fill"></span></span>
+    </div>
+  </header>
+  <div class="grid">
+    <div class="item">
+      <div class="itemtop"><span class="onset">סו־</span><span class="num">1</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 1">🐴</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>סוד</div>
+        <div class="word"><span class="bubble"></span>סוס</div>
+        <div class="word"><span class="bubble"></span>סוג</div>
+        <div class="word"><span class="bubble"></span>סוף</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">פר־</span><span class="num">2</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 2">🐄</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>פרח</div>
+        <div class="word"><span class="bubble"></span>פרה</div>
+        <div class="word"><span class="bubble"></span>פרס</div>
+        <div class="word"><span class="bubble"></span>פרק</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">ד־</span><span class="num">3</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 3">🐟</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>דב</div>
+        <div class="word"><span class="bubble"></span>דג</div>
+        <div class="word"><span class="bubble"></span>דף</div>
+        <div class="word"><span class="bubble"></span>דל</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">כל־</span><span class="num">4</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 4">🐕</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>כלי</div>
+        <div class="word"><span class="bubble"></span>כלה</div>
+        <div class="word"><span class="bubble"></span>כלב</div>
+        <div class="word"><span class="bubble"></span>כלל</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>צליל פותח · דף עבודה</span><span>עמוד 1 מתוך 6</span></div>
+</div>
+<div class="sheet">
+  <div class="runhead"><b>צליל פותח · איזו מילה מתאימה לתמונה?</b><span>נבו</span></div>
+  <div class="grid">
+    <div class="item">
+      <div class="itemtop"><span class="onset">שמ־</span><span class="num">5</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 5">☀️</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>שמן</div>
+        <div class="word"><span class="bubble"></span>שמח</div>
+        <div class="word"><span class="bubble"></span>שמש</div>
+        <div class="word"><span class="bubble"></span>שמע</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">יר־</span><span class="num">6</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 6">🌙</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>ירק</div>
+        <div class="word"><span class="bubble"></span>ירח</div>
+        <div class="word"><span class="bubble"></span>ירד</div>
+        <div class="word"><span class="bubble"></span>ירך</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">תפו־</span><span class="num">7</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 7">🍎</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>תפוז</div>
+        <div class="word"><span class="bubble"></span>תפוח</div>
+        <div class="word"><span class="bubble"></span>תפור</div>
+        <div class="word"><span class="bubble"></span>תפוס</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">תפו־</span><span class="num">8</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 8">🍊</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>תפוח</div>
+        <div class="word"><span class="bubble"></span>תפור</div>
+        <div class="word"><span class="bubble"></span>תפוז</div>
+        <div class="word"><span class="bubble"></span>תפוס</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>צליל פותח · דף עבודה</span><span>עמוד 2 מתוך 6</span></div>
+</div>
+<div class="sheet">
+  <div class="runhead"><b>צליל פותח · איזו מילה מתאימה לתמונה?</b><span>נבו</span></div>
+  <div class="grid">
+    <div class="item">
+      <div class="itemtop"><span class="onset">גז־</span><span class="num">9</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 9">🥕</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>גזל</div>
+        <div class="word"><span class="bubble"></span>גזם</div>
+        <div class="word"><span class="bubble"></span>גזר</div>
+        <div class="word"><span class="bubble"></span>גזע</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">לח־</span><span class="num">10</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 10">🍞</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>לחץ</div>
+        <div class="word"><span class="bubble"></span>לחם</div>
+        <div class="word"><span class="bubble"></span>לחש</div>
+        <div class="word"><span class="bubble"></span>לחן</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">חל־</span><span class="num">11</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 11">🥛</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>חלה</div>
+        <div class="word"><span class="bubble"></span>חלק</div>
+        <div class="word"><span class="bubble"></span>חלב</div>
+        <div class="word"><span class="bubble"></span>חלם</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">גל־</span><span class="num">12</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 12">🍦</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>גלימה</div>
+        <div class="word"><span class="bubble"></span>גלידה</div>
+        <div class="word"><span class="bubble"></span>גלישה</div>
+        <div class="word"><span class="bubble"></span>גלגל</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>צליל פותח · דף עבודה</span><span>עמוד 3 מתוך 6</span></div>
+</div>
+<div class="sheet">
+  <div class="runhead"><b>צליל פותח · איזו מילה מתאימה לתמונה?</b><span>נבו</span></div>
+  <div class="grid">
+    <div class="item">
+      <div class="itemtop"><span class="onset">ספ־</span><span class="num">13</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 13">📖</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>ספה</div>
+        <div class="word"><span class="bubble"></span>ספל</div>
+        <div class="word"><span class="bubble"></span>ספר</div>
+        <div class="word"><span class="bubble"></span>ספג</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">נע־</span><span class="num">14</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 14">👟</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>נעל</div>
+        <div class="word"><span class="bubble"></span>נער</div>
+        <div class="word"><span class="bubble"></span>נעץ</div>
+        <div class="word"><span class="bubble"></span>נעם</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">מט־</span><span class="num">15</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 15">✈️</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>מטרה</div>
+        <div class="word"><span class="bubble"></span>מטבח</div>
+        <div class="word"><span class="bubble"></span>מטוס</div>
+        <div class="word"><span class="bubble"></span>מטבע</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">אר־</span><span class="num">16</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 16">🦁</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>ארון</div>
+        <div class="word"><span class="bubble"></span>אריה</div>
+        <div class="word"><span class="bubble"></span>ארוך</div>
+        <div class="word"><span class="bubble"></span>ארנק</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>צליל פותח · דף עבודה</span><span>עמוד 4 מתוך 6</span></div>
+</div>
+<div class="sheet">
+  <div class="runhead"><b>צליל פותח · איזו מילה מתאימה לתמונה?</b><span>נבו</span></div>
+  <div class="grid">
+    <div class="item">
+      <div class="itemtop"><span class="onset">דל־</span><span class="num">17</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 17">🚪</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>דלי</div>
+        <div class="word"><span class="bubble"></span>דלק</div>
+        <div class="word"><span class="bubble"></span>דלג</div>
+        <div class="word"><span class="bubble"></span>דלת</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">כת־</span><span class="num">18</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 18">👑</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>כתב</div>
+        <div class="word"><span class="bubble"></span>כתר</div>
+        <div class="word"><span class="bubble"></span>כתם</div>
+        <div class="word"><span class="bubble"></span>כתף</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">ענ־</span><span class="num">19</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 19">☁️</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>ענב</div>
+        <div class="word"><span class="bubble"></span>ענף</div>
+        <div class="word"><span class="bubble"></span>ענן</div>
+        <div class="word"><span class="bubble"></span>ענק</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">צ־</span><span class="num">20</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 20">🐢</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>צל</div>
+        <div class="word"><span class="bubble"></span>צר</div>
+        <div class="word"><span class="bubble"></span>צב</div>
+        <div class="word"><span class="bubble"></span>צד</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>צליל פותח · דף עבודה</span><span>עמוד 5 מתוך 6</span></div>
+</div>
+<div class="sheet">
+  <div class="runhead"><b>צליל פותח · איזו מילה מתאימה לתמונה?</b><span>נבו</span></div>
+  <div class="grid">
+    <div class="item">
+      <div class="itemtop"><span class="onset">עי־</span><span class="num">21</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 21">👁️</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>עיר</div>
+        <div class="word"><span class="bubble"></span>עיט</div>
+        <div class="word"><span class="bubble"></span>עין</div>
+        <div class="word"><span class="bubble"></span>עיף</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">בלו־</span><span class="num">22</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 22">🎈</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>בלוט</div>
+        <div class="word"><span class="bubble"></span>בלוק</div>
+        <div class="word"><span class="bubble"></span>בלון</div>
+        <div class="word"><span class="bubble"></span>בלוף</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">תו־</span><span class="num">23</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 23">🍓</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>תור</div>
+        <div class="word"><span class="bubble"></span>תוף</div>
+        <div class="word"><span class="bubble"></span>תום</div>
+        <div class="word"><span class="bubble"></span>תות</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemtop"><span class="onset">קו־</span><span class="num">24</span></div>
+      <div class="pic" role="img" aria-label="תמונה לתרגיל 24">🐒</div>
+      <div class="words">
+        <div class="word"><span class="bubble"></span>קול</div>
+        <div class="word"><span class="bubble"></span>קוף</div>
+        <div class="word"><span class="bubble"></span>קור</div>
+        <div class="word"><span class="bubble"></span>קום</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>צליל פותח · דף עבודה</span><span>עמוד 6 מתוך 6</span></div>
+</div>
+<div class="sheet">
+  <header class="keyhead">
+    <p class="eyebrow">למבוגר · לא להדפיס לילד</p>
+    <h2>דף תשובות</h2>
+  </header>
+  <div class="keygrid">
+    <div class="keyrow"><span class="n">1</span><span class="e">🐴</span><span class="wd">סוס</span></div>
+    <div class="keyrow"><span class="n">2</span><span class="e">🐄</span><span class="wd">פרה</span></div>
+    <div class="keyrow"><span class="n">3</span><span class="e">🐟</span><span class="wd">דג</span></div>
+    <div class="keyrow"><span class="n">4</span><span class="e">🐕</span><span class="wd">כלב</span></div>
+    <div class="keyrow"><span class="n">5</span><span class="e">☀️</span><span class="wd">שמש</span></div>
+    <div class="keyrow"><span class="n">6</span><span class="e">🌙</span><span class="wd">ירח</span></div>
+    <div class="keyrow"><span class="n">7</span><span class="e">🍎</span><span class="wd">תפוח</span></div>
+    <div class="keyrow"><span class="n">8</span><span class="e">🍊</span><span class="wd">תפוז</span></div>
+    <div class="keyrow"><span class="n">9</span><span class="e">🥕</span><span class="wd">גזר</span></div>
+    <div class="keyrow"><span class="n">10</span><span class="e">🍞</span><span class="wd">לחם</span></div>
+    <div class="keyrow"><span class="n">11</span><span class="e">🥛</span><span class="wd">חלב</span></div>
+    <div class="keyrow"><span class="n">12</span><span class="e">🍦</span><span class="wd">גלידה</span></div>
+    <div class="keyrow"><span class="n">13</span><span class="e">📖</span><span class="wd">ספר</span></div>
+    <div class="keyrow"><span class="n">14</span><span class="e">👟</span><span class="wd">נעל</span></div>
+    <div class="keyrow"><span class="n">15</span><span class="e">✈️</span><span class="wd">מטוס</span></div>
+    <div class="keyrow"><span class="n">16</span><span class="e">🦁</span><span class="wd">אריה</span></div>
+    <div class="keyrow"><span class="n">17</span><span class="e">🚪</span><span class="wd">דלת</span></div>
+    <div class="keyrow"><span class="n">18</span><span class="e">👑</span><span class="wd">כתר</span></div>
+    <div class="keyrow"><span class="n">19</span><span class="e">☁️</span><span class="wd">ענן</span></div>
+    <div class="keyrow"><span class="n">20</span><span class="e">🐢</span><span class="wd">צב</span></div>
+    <div class="keyrow"><span class="n">21</span><span class="e">👁️</span><span class="wd">עין</span></div>
+    <div class="keyrow"><span class="n">22</span><span class="e">🎈</span><span class="wd">בלון</span></div>
+    <div class="keyrow"><span class="n">23</span><span class="e">🍓</span><span class="wd">תות</span></div>
+    <div class="keyrow"><span class="n">24</span><span class="e">🐒</span><span class="wd">קוף</span></div>
+  </div>
+  <p class="keynote">אם נבו מתבלבל, כסו את סוף המילה באצבע וקראו יחד רק את הצליל הפותח — כל האפשרויות יישמעו זהות. אחר כך גלו אות אחת בכל פעם. ההבדל תמיד באות האחרונה.</p>
+  <div class="foot"><span>צליל פותח · דף תשובות</span><span>24 תרגילים</span></div>
+</div>
+</body>
+</html>

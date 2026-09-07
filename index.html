@@ -319,7 +319,7 @@ body.plain-tail .opt.wrong .tail{color:inherit;font-weight:inherit}
   <div class="strip">
     <span class="verdict" id="verdict"></span>
     <span class="spacer"></span>
-    <button class="next" id="next" type="button" hidden>הלאה →</button>
+    <button class="next" id="next" type="button" hidden>המשך ←</button>
   </div>
 
 </div>
@@ -481,7 +481,7 @@ body.plain-tail .opt.wrong .tail{color:inherit;font-weight:inherit}
     }
 
     nextEl.hidden = false;
-    nextEl.textContent = (at + 1 === TOTAL) ? "לסיום →" : "הלאה →";
+    nextEl.textContent = (at + 1 === TOTAL) ? "לסיום ←" : "המשך ←";
     nextEl.focus({ preventScroll: true });
     tallyEl.textContent = right + " / " + TOTAL;
   }

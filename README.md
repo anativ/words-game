@@ -1,5 +1,7 @@
 # צלילים פותחים — Words Starting with the Same Sound
 
+**▶ Play it: https://anativ.github.io/words-game/**
+
 A Hebrew reading exercise for Nevo. Every question shows a picture and **four words that
 all begin with the same sound** (same first letter, or first two/three letters) — so the
 only way to pick the right one is to read the word *to the end*. The difference is always
@@ -17,7 +19,9 @@ in the final letter: `סוס · סוד · סוג · סוף`.
 
 ## Run it
 
-Just open the file — there is no build step and no server needed:
+It is live at **https://anativ.github.io/words-game/** — nothing to install.
+
+To run your own copy, just open the file; there is no build step and no server needed:
 
 ```bash
 open index.html

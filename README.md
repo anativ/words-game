@@ -39,6 +39,17 @@ it everything still works, just silently. The 🔊 button toggles all sound.
 - The end screen lists exactly which words were missed, and remembers a personal best.
 - Question order and answer positions are shuffled on every run.
 
+## Settings
+
+Behind **⚙ הגדרות**, both remembered per browser:
+
+| Setting | Default | What it does |
+| --- | --- | --- |
+| **להדגיש את סוף המילה** | on | Colours and bolds the letters that differ between the four options, so the eye is pointed at where to look. Turn it **off** and all four words render identically — no hint, the whole word has to be read. That is the harder, more honest version of the exercise, and the natural next step once the shared onset is understood. |
+| **קול** | on | Feedback tones plus Hebrew speech. Off makes the app completely silent. |
+
+Escape or a click outside closes the panel.
+
 ## Editing the questions
 
 Edit `words.js`, then rebuild the printable sheet:

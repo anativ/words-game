@@ -90,6 +90,38 @@ body{
 }
 .chipbtn:hover{border-color:var(--rule-strong);color:var(--ink)}
 .chipbtn:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+.chipbtn[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- settings ---------- */
+.panel{
+  background:var(--card);border:1.5px solid var(--rule);border-radius:14px;
+  box-shadow:0 1px 2px var(--shadow),0 10px 24px -18px var(--shadow-lift);
+  padding:2px 14px;
+}
+.panel[hidden]{display:none}
+.srow{display:flex;align-items:center;gap:14px;padding:12px 0}
+.srow + .srow{border-top:1px solid var(--rule)}
+.srow .label{flex:1;font-size:15px;font-weight:700;line-height:1.3}
+.srow .sub{
+  display:block;font-size:12.5px;font-weight:400;color:var(--ink-soft);
+  margin-top:3px;line-height:1.45;
+}
+.sw{
+  flex:none;width:48px;height:28px;border-radius:999px;
+  border:1.5px solid var(--rule-strong);background:var(--rule);
+  position:relative;cursor:pointer;padding:0;
+  direction:ltr; /* a switch reads the same in either script: off left, on right */
+  transition:background .18s,border-color .18s;
+}
+.sw::after{
+  content:"";position:absolute;top:2px;left:2px;
+  width:20px;height:20px;border-radius:50%;background:var(--card);
+  box-shadow:0 1px 2px rgba(0,0,0,.28);
+  transition:translate .18s cubic-bezier(.4,0,.2,1);
+}
+.sw[aria-checked="true"]{background:var(--accent);border-color:var(--accent)}
+.sw[aria-checked="true"]::after{translate:20px 0}
+.sw:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 
 /* ---------- progress ---------- */
 .meter{display:flex;align-items:center;gap:10px}
@@ -168,6 +200,9 @@ body{
   animation:shake .34s ease;
 }
 .opt.wrong .tail{color:var(--bad)}
+body.plain-tail .opt .tail,
+body.plain-tail .opt.correct .tail,
+body.plain-tail .opt.wrong .tail{color:inherit;font-weight:inherit}
 .opt.fade{opacity:.35}
 @keyframes shake{
   0%,100%{transform:translateX(0)}
@@ -246,8 +281,23 @@ body{
   <div class="top">
     <h1 class="brand">צלילים פותחים</h1>
     <span class="spacer"></span>
-    <button class="chipbtn" id="soundBtn" type="button" aria-pressed="true" title="קול">🔊 קול</button>
+    <button class="chipbtn" id="setBtn" type="button" aria-expanded="false" aria-controls="panel" title="הגדרות">⚙ הגדרות</button>
     <a class="chipbtn" href="worksheet.html" title="גרסה להדפסה">🖨 דף להדפסה</a>
+  </div>
+
+  <div class="panel" id="panel" hidden>
+    <div class="srow">
+      <span class="label" id="lblTail">להדגיש את סוף המילה
+        <span class="sub">האותיות שמבדילות בין ארבע המילים מודגשות בצבע. כיבוי = צריך לקרוא את כל המילה בעצמו, בלי רמז.</span>
+      </span>
+      <button class="sw" id="swTail" type="button" role="switch" aria-checked="true" aria-labelledby="lblTail"></button>
+    </div>
+    <div class="srow">
+      <span class="label" id="lblSound">קול
+        <span class="sub">צלילי משוב, והקראה בעברית של המילה שנבחרה ושל הנכונה.</span>
+      </span>
+      <button class="sw" id="swSound" type="button" role="switch" aria-checked="true" aria-labelledby="lblSound"></button>
+    </div>
   </div>
 
   <div class="meter">
@@ -284,10 +334,13 @@ body{
   var fillEl = el("fill"), tallyEl = el("tally"), streakEl = el("streak");
   var cardEl = el("card"), onsetEl = el("onset"), qnumEl = el("qnum");
   var picEl = el("pic"), hintEl = el("hint"), optsEl = el("opts");
-  var verdictEl = el("verdict"), nextEl = el("next"), soundBtn = el("soundBtn");
+  var verdictEl = el("verdict"), nextEl = el("next");
+  var setBtn = el("setBtn"), panelEl = el("panel");
+  var swTail = el("swTail"), swSound = el("swSound");
 
   var deck = [], at = 0, right = 0, streak = 0, locked = false, missed = [];
   var soundOn = localStorage.getItem("nevo.sound") !== "off";
+  var boldTail = localStorage.getItem("nevo.boldTail") !== "off";
 
   /* ---------- helpers ---------- */
   function shuffle(a) {
@@ -484,6 +537,11 @@ body{
   nextEl.addEventListener("click", advance);
 
   document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      if (!panelEl.hidden) { setPanel(false); setBtn.focus({ preventScroll: true }); }
+      return;
+    }
+    if (!panelEl.hidden) return;  // don't answer questions while settings are open
     if (e.key === "Enter" || e.key === " ") {
       if (!nextEl.hidden) { e.preventDefault(); advance(); }
       return;
@@ -495,17 +553,37 @@ body{
     }
   });
 
-  function paintSound() {
-    soundBtn.textContent = soundOn ? "🔊 קול" : "🔇 שקט";
-    soundBtn.setAttribute("aria-pressed", String(soundOn));
+  /* ---------- settings ---------- */
+  function paintSettings() {
+    swSound.setAttribute("aria-checked", String(soundOn));
+    swTail.setAttribute("aria-checked", String(boldTail));
+    // one class on <body> restyles every option that is already on screen
+    document.body.classList.toggle("plain-tail", !boldTail);
   }
-  soundBtn.addEventListener("click", function () {
+
+  swSound.addEventListener("click", function () {
     soundOn = !soundOn;
     localStorage.setItem("nevo.sound", soundOn ? "on" : "off");
     if (!soundOn && "speechSynthesis" in window) speechSynthesis.cancel();
-    paintSound();
+    paintSettings();
   });
-  paintSound();
+
+  swTail.addEventListener("click", function () {
+    boldTail = !boldTail;
+    localStorage.setItem("nevo.boldTail", boldTail ? "on" : "off");
+    paintSettings();
+  });
+
+  function setPanel(open) {
+    panelEl.hidden = !open;
+    setBtn.setAttribute("aria-expanded", String(open));
+  }
+  setBtn.addEventListener("click", function () { setPanel(panelEl.hidden); });
+  document.addEventListener("click", function (e) {
+    if (!panelEl.hidden && !panelEl.contains(e.target) && e.target !== setBtn) setPanel(false);
+  });
+
+  paintSettings();
 
   deck = shuffle(window.WORDS).map(function (q) {
     return {
